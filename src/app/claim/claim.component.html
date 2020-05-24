@@ -1,39 +1,51 @@
-<div>
-  <div class="form-inline">
-    <label for="claimId" class="col-sm-2 col-form-label col-form-label-lg">Claim Id</label>
-    <input #claimId type="text" class="form-control " id="claimId">
-    <button (click)="getClaimById(claimId.value)" class="btn btn-primary" type="submit"> Search</button>
-  </div>
+<div class="card-body">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="form-group">
+      <label #claimId for="claimId" class="col-sm-2 col-form-label col-form-label-lg">Claim Id</label>
+      <input formControlName="claimId" id="claimId" type="text" class="form-control">
+      <div *ngIf="f.claimId.touched && f.claimId.invalid" class="alert alert-danger">
+        <div *ngIf="f.claimId.errors.required">ClaimId is required.</div>
+        <div *ngIf="f.claimId.errors.minlength">ClaimId should be atleast 3 numbers.</div>
+      </div>
+      <button [ngClass]="{'btn': true, 'btn-primary': form.valid, 'btn-secondary': !form.valid}" type="submit" [disabled]="!form.valid"> Search</button>
+    </div>
+  </form>
   <!--<div *ngIf="claim != null" class="col-sm-4">
     Claim Id: {{claim.ClaimId}}
     Claim Number: {{claim.ClaimNumber}}
   </div>-->
 
   <div *ngIf="claim != null" style="margin: 70px;">
-    <hr/>
+    <hr />
     <div class="form-inline">
-      <label for="claimId" class="col-sm-4 col-form-label col-form-label-mg font-weight-bold text-left" >Claim Id</label>
+      <label for="claimId" class="col-sm-4 col-form-label col-form-label-mg font-weight-bold text-left">Claim Id</label>
       {{claim.ClaimId}}
     </div>
     <div class="form-inline">
-      <label for="claimNumber" class="col-sm-4 col-form-label col-form-label-mg font-weight-bold text-left">Claim Number</label>
+      <label for="claimNumber" class="col-sm-4 col-form-label col-form-label-mg font-weight-bold text-left">Claim
+        Number</label>
       {{claim.ClaimNumber}}
     </div>
     <div class="form-inline">
-      <label for="networkName" class="col-sm-4 col-form-label col-form-label-mg text-left font-weight-bold">Network Name</label>
+      <label for="networkName" class="col-sm-4 col-form-label col-form-label-mg text-left font-weight-bold">Network
+        Name</label>
       {{claim.NetworkName}}
     </div>
     <div class="form-inline">
-      <label for="ClaimType" class="col-sm-4 col-form-label col-form-label-mg text-left font-weight-bold">Claim Type</label>
+      <label for="ClaimType" class="col-sm-4 col-form-label col-form-label-mg text-left font-weight-bold">Claim
+        Type</label>
       {{claim.ClaimType}}
     </div>
     <div class="form-inline">
-      <label for="MedicareId" class="col-sm-4 col-form-label col-form-label-mg text-left font-weight-bold">Medicare Id</label>
+      <label for="MedicareId" class="col-sm-4 col-form-label col-form-label-mg text-left font-weight-bold">Medicare
+        Id</label>
       {{claim.MedicareId}}
     </div>
     <div class="form-inline">
-      <label for="ProviderName" class="col-sm-4 col-form-label col-form-label-mg text-left font-weight-bold">Provider Name</label>
+      <label for="ProviderName" class="col-sm-4 col-form-label col-form-label-mg text-left font-weight-bold">Provider
+        Name</label>
       {{claim.ProviderName}}
     </div>
   </div>
+
 </div>
