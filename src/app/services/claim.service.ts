@@ -33,13 +33,14 @@ export class ClaimService {
       .pipe(
         map((data) => {
           //const claimsArray: Array<IClaim> = [];
-          const resultClaim: IClaim = new Claim();
+          let resultClaim: IClaim = new Claim();
           //console.log(data["RESULT"]);
 
           const claims = data['RESULT'].SIMPLEQUERY;
           //console.log("Claims Length : ",claims.length)
           for (var i = 0; i < claims.length; i++) {
             if (claims[i].CLAIMID == claimId) {
+               //resultClaim = new Claim();
               console.log('This is the matching claimId : ', claims[i].CLAIMID);
               resultClaim.ClaimId = claims[i].CLAIMID;
               resultClaim.ClaimNumber = claims[i].CLAIMNMBER;

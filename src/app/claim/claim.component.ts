@@ -14,10 +14,7 @@ export class ClaimComponent implements OnInit {
   claim: IClaim;
 
   form = new FormGroup({
-    claimId: new FormControl('', [
-      Validators.required,
-      Validators.minLength(3),
-    ]),
+    claimId: new FormControl('', [Validators.required, Validators.minLength(3) ]),
   });
 
   constructor(private claimservice: ClaimService) {}
@@ -45,18 +42,6 @@ export class ClaimComponent implements OnInit {
       }
     );  }*/
 
-  getClaimById(claimId: number): void {
-    console.log('component claimId: ', claimId);
-    this.claimservice.getClaimById(claimId).subscribe(
-      (data) => {
-        this.claim = data;
-        console.log('Claim from backend.. ', this.claim);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
 
   get f() {
     return this.form.controls;

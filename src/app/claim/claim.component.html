@@ -14,8 +14,10 @@
     Claim Id: {{claim.ClaimId}}
     Claim Number: {{claim.ClaimNumber}}
   </div>-->
-
-  <div *ngIf="claim != null" style="margin: 70px;">
+  <div *ngIf="claim != null && claim.ClaimId == null" class="alert alert-primary">
+    No Data Found.
+  </div>
+  <div *ngIf="claim != null && claim.ClaimId != null" style="margin: 70px;">
     <hr />
     <div class="form-inline">
       <label for="claimId" class="col-sm-4 col-form-label col-form-label-mg font-weight-bold text-left">Claim Id</label>
