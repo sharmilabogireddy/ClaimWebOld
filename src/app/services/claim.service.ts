@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { IClaim } from '../Model/IClaim';
 import { Claim } from '../Model/Claim';
+import { IClaimBackend } from '../Model/IClaimBackend';
 
 @Injectable({
   providedIn: 'root',
@@ -13,14 +14,14 @@ export class ClaimService {
 
   getClaims(): Observable<IClaim[]> {
     return this.http
-      .get('https://my-json-server.typicode.com/sharmilabogireddy/mock-data/db')
+      .get('https://my-json-server.typicode.com/sharmilabogireddy/mock-data/SIMPLEQUERY/')
       .pipe(
         map((data) => {
           const claimsArray: Array<IClaim> = [];
           const claims: IClaim = new Claim();
-          claims.ClaimId = data['RESULT'].SIMPLEQUERY.CLAIMID;
-          claims.ClaimNumber = data['RESULT'].SIMPLEQUERY.CLAIMNMBER;
-          claims.ClaimType = data['RESULT'].SIMPLEQUERY.CLAITYPE;
+          claims.ClaimId = data['SIMPLEQUERY'].CLAIMID;
+          claims.ClaimNumber = data['SIMPLEQUERY'].CLAIMNMBER;
+          claims.ClaimType = data['SIMPLEQUERY'].CLAITYPE;
           claimsArray.push(claims);
           return claimsArray;
         })
@@ -29,27 +30,27 @@ export class ClaimService {
 
   getClaimById(claimId: number): Observable<IClaim> {
     return this.http
-      .get('https://my-json-server.typicode.com/sharmilabogireddy/mock-data/db')
+      .get<IClaimBackend>('https://my-json-server.typicode.com/sharmilabogireddy/mock-data/SIMPLEQUERY/'+claimId)
       .pipe(
         map((data) => {
           //const claimsArray: Array<IClaim> = [];
           let resultClaim: IClaim = new Claim();
-          //console.log(data["RESULT"]);
+          //console.log(data);
+          //let backendData = data as IClaimBackend;
+          //const claims = data['RESULT'].SIMPLEQUERY;
+          //const claims = data['SIMPLEQUERY'];
 
-          const claims = data['RESULT'].SIMPLEQUERY;
           //console.log("Claims Length : ",claims.length)
-          for (var i = 0; i < claims.length; i++) {
-            if (claims[i].CLAIMID == claimId) {
                //resultClaim = new Claim();
-              console.log('This is the matching claimId : ', claims[i].CLAIMID);
-              resultClaim.ClaimId = claims[i].CLAIMID;
-              resultClaim.ClaimNumber = claims[i].CLAIMNMBER;
-              resultClaim.ClaimType = claims[i].CLAIMTYPE;
-              resultClaim.MedicareId = claims[i].MEDICAREID;
-              resultClaim.NetworkName = claims[i].NETWORKNAME;
-              resultClaim.ProviderName = claims[i].PROVIDERNAME;
-            }
-          }
+              console.log('This is the matching claimId : ', data.CLAIMID);
+              resultClaim.ClaimId = data.CLAIMID;
+              resultClaim.ClaimNumber = data.CLAIMNMBER;
+              resultClaim.ClaimType = data.CLAIMTYPE;
+              resultClaim.MedicareId = data.MEDICAREID;
+              resultClaim.NetworkName = data.NETWORKNAME;
+              resultClaim.ProviderName = data.PROVIDERNAME;
+
+
 
           return resultClaim;
         })

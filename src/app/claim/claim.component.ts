@@ -12,6 +12,9 @@ import { FormGroup, Validators, FormControl } from '@angular/forms';
 export class ClaimComponent implements OnInit {
   claims: Array<IClaim>;
   claim: IClaim;
+  statusCode: number;
+  message: string;
+
 
   form = new FormGroup({
     claimId: new FormControl('', [Validators.required, Validators.minLength(3) ]),
@@ -51,11 +54,20 @@ export class ClaimComponent implements OnInit {
     console.log('component claimId: ', this.form.value.claimId);
     this.claimservice.getClaimById(this.form.value.claimId).subscribe(
       (data) => {
+        this.statusCode = 200;
         this.claim = data;
         console.log('Claim from backend.. ', this.claim);
       },
       (error) => {
-        console.log(error);
+        console.log("This is errrrrrrrrrrrrr.. ", error);
+        if(error.status == 404) {
+          this.statusCode = 404;
+          this.message = "The given claim id is not found.";
+        }
+        if(error.status == 500) {
+          this.statusCode = 500;
+          this.message = "Please try again sometime later. If the issue persists contact the application administrator.";
+        }
       }
     );
   }

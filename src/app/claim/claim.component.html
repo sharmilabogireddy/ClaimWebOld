@@ -14,10 +14,13 @@
     Claim Id: {{claim.ClaimId}}
     Claim Number: {{claim.ClaimNumber}}
   </div>-->
-  <div *ngIf="claim != null && claim.ClaimId == null" class="alert alert-primary">
-    No Data Found.
+  <div *ngIf="statusCode == 404" class="alert alert-primary">
+    {{message}}
   </div>
-  <div *ngIf="claim != null && claim.ClaimId != null" style="margin: 70px;">
+  <div *ngIf="statusCode == 500" class="alert alert-danger">
+    {{message}}
+  </div>
+  <div *ngIf="statusCode == 200" style="margin: 70px;">
     <hr />
     <div class="form-inline">
       <label for="claimId" class="col-sm-4 col-form-label col-form-label-mg font-weight-bold text-left">Claim Id</label>
