@@ -1,7 +1,7 @@
 # 1. Introduction
 This web application allows you to search for Claim details.
 
-# 2. System Requirements
+# 2. Development Requirements
 
 Following tools are required to run the project in your local.
 1. git or (you can download project from [github](https://github.com/sharmilabogireddy/ClaimWeb))
@@ -35,10 +35,25 @@ To run the project you need to install the angularCLI as a global npm package. R
 To run the project you need to install all the dependencies in your project. Run the following command.
 `C:\projects\ClaimWeb>npm install`
 
-# 3. Run the Project
+## 2.3 Run the Project locally
 
 Run the following command `C:\projects\ClaimWeb>ng serve -o`
 
 Now the application will open in the browser `http://localhost:4200/`
+
+
+# 3. Build for Release
+
+Before deploying into other http servers you need to build the project and create a package for deployment.
+
+Build the project by giving the following command.
+
+`C:\projects>ng build --prod --base-href /Claim/`
+
+The above command will create the `dist` folder in your project.
+
+# 4. Deploying in IIS server
+
+See documentation [here](src/Deploy.md)
 
 

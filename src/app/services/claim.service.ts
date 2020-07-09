@@ -11,7 +11,6 @@ import { IClaimBackend } from '../Model/IClaimBackend';
 })
 export class ClaimService {
   constructor(private http: HttpClient) {}
-
   getClaims(): Observable<IClaim[]> {
     return this.http
       .get('https://my-json-server.typicode.com/sharmilabogireddy/mock-data/SIMPLEQUERY/')
@@ -35,6 +34,7 @@ export class ClaimService {
         map((data) => {
           //const claimsArray: Array<IClaim> = [];
           let resultClaim: IClaim = new Claim();
+          let columns = ["Claim Id", "Claim Number", "Claim Type", "Medicare Id", "Network Name", "Provider Name"];
           //console.log(data);
           //let backendData = data as IClaimBackend;
           //const claims = data['RESULT'].SIMPLEQUERY;
