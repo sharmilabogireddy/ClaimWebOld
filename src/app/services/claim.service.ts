@@ -27,32 +27,27 @@ export class ClaimService {
       );
   }
 
-  getClaimById(claimId: number): Observable<IClaim> {
+  getClaimById(claimId: number): Observable<IClaim[]> {
     return this.http
-      .get<IClaimBackend>('https://my-json-server.typicode.com/sharmilabogireddy/mock-data/SIMPLEQUERY/'+claimId)
+      .get<IClaimBackend>('https://my-json-server.typicode.com/sharmilabogireddy/mock-data/SIMPLEQUERY?id='+claimId)
       .pipe(
         map((data) => {
-          //const claimsArray: Array<IClaim> = [];
-          let resultClaim: IClaim = new Claim();
-          let columns = ["Claim Id", "Claim Number", "Claim Type", "Medicare Id", "Network Name", "Provider Name"];
-          //console.log(data);
-          //let backendData = data as IClaimBackend;
-          //const claims = data['RESULT'].SIMPLEQUERY;
-          //const claims = data['SIMPLEQUERY'];
-
-          //console.log("Claims Length : ",claims.length)
-               //resultClaim = new Claim();
-              console.log('This is the matching claimId : ', data.CLAIMID);
-              resultClaim.ClaimId = data.CLAIMID;
-              resultClaim.ClaimNumber = data.CLAIMNMBER;
-              resultClaim.ClaimType = data.CLAIMTYPE;
-              resultClaim.MedicareId = data.MEDICAREID;
-              resultClaim.NetworkName = data.NETWORKNAME;
-              resultClaim.ProviderName = data.PROVIDERNAME;
-
-
-
-          return resultClaim;
+          let resultClaim: IClaim = null;
+          const claimsArray: Array<IClaim> = [];
+            for(const id in data){
+               if(data.hasOwnProperty(id)){
+                resultClaim = new Claim();
+                 resultClaim.ClaimId = data[id].CLAIMID;
+                 resultClaim.ClaimNumber = data[id].CLAIMNMBER;
+                 resultClaim.ClaimType = data[id].CLAIMTYPE;
+                resultClaim.MedicareId = data[id].MEDICAREID;
+                resultClaim.NetworkName = data[id].NETWORKNAME;
+                resultClaim.ProviderName = data[id].PROVIDERNAME;
+                claimsArray.push(resultClaim);
+               }
+             }
+               console.log("Result: ", claimsArray);
+          return claimsArray;
         })
       );
   }

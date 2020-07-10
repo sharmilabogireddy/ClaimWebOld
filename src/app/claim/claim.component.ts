@@ -3,6 +3,7 @@ import { IClaim } from '../Model/IClaim';
 //import { ClaimService } from 'src/app/services/claim.service';
 import { ClaimService } from 'src/app/services/claim.service';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-claim',
@@ -54,9 +55,9 @@ export class ClaimComponent implements OnInit {
     console.log('component claimId: ', this.form.value.claimId);
     this.claimservice.getClaimById(this.form.value.claimId).subscribe(
       (data) => {
+        this.claims = data;
         this.statusCode = 200;
-        this.claim = data;
-        console.log('Claim from backend.. ', this.claim);
+        //console.log('Claim from backend.. ', this.claims);
       },
       (error) => {
         console.log("This is errrrrrrrrrrrrr.. ", error);
