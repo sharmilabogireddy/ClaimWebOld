@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { Routes } from '@angular/router';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const appRoutes: Routes = [
   {path:'', component: ClaimComponent}
@@ -24,7 +25,8 @@ const appRoutes: Routes = [
       AppRoutingModule,
       HttpClientModule,
       FormsModule,
-      ReactiveFormsModule
+      ReactiveFormsModule,
+      BrowserAnimationsModule
    ],
    providers: [
      ClaimService
