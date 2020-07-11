@@ -10,6 +10,7 @@ import { Routes } from '@angular/router';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatTableModule} from '@angular/material/table';
 
 const appRoutes: Routes = [
   {path:'', component: ClaimComponent}
@@ -21,6 +22,7 @@ const appRoutes: Routes = [
       NavBarComponent
    ],
    imports: [
+      MatTableModule,
       BrowserModule,
       AppRoutingModule,
       HttpClientModule,

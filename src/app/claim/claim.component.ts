@@ -15,7 +15,7 @@ export class ClaimComponent implements OnInit {
   claim: IClaim;
   statusCode: number;
   message: string;
-
+  displayedColumns: string[] = ['ClaimId', 'ClaimType', 'NetworkName', 'ProviderName'];
 
   form = new FormGroup({
     claimId: new FormControl(''),
