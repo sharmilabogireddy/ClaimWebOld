@@ -27,9 +27,21 @@ export class ClaimService {
       );
   }
 
-  getClaimById(claimId: number): Observable<IClaim[]> {
+  getClaimById(claimId: number,claimType: string): Observable<IClaim[]> {
+    let url = 'https://my-json-server.typicode.com/sharmilabogireddy/mock-data/SIMPLEQUERY';
+    let queryParams = []
+    if(claimId){
+      queryParams.push('id='+claimId);
+    }
+    if(claimType){
+      queryParams.push('CLAIMTYPE='+claimType);
+    }
+    let query = queryParams.reduce(function(acc, item){
+      return acc + item + "&";
+    }, url+"?")
+    query = query.substring(0, query.length -1);
     return this.http
-      .get<IClaimBackend>('https://my-json-server.typicode.com/sharmilabogireddy/mock-data/SIMPLEQUERY?id='+claimId)
+      .get<IClaimBackend>(query)
       .pipe(
         map((data) => {
           let resultClaim: IClaim = null;

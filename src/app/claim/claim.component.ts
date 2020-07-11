@@ -18,7 +18,9 @@ export class ClaimComponent implements OnInit {
 
 
   form = new FormGroup({
-    claimId: new FormControl('', [Validators.required, Validators.minLength(3) ]),
+    claimId: new FormControl(''),
+    claimType: new FormControl('', [Validators.required, Validators.minLength(3) ]),
+
   });
 
   constructor(private claimservice: ClaimService) {}
@@ -53,7 +55,9 @@ export class ClaimComponent implements OnInit {
   submit() {
     console.log('Form submission', this.form.value);
     console.log('component claimId: ', this.form.value.claimId);
-    this.claimservice.getClaimById(this.form.value.claimId).subscribe(
+    console.log('component claimId: ', this.form.value.claimType);
+
+    this.claimservice.getClaimById(this.form.value.claimId,this.form.value.claimType).subscribe(
       (data) => {
         this.claims = data;
         this.statusCode = 200;

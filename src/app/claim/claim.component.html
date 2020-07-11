@@ -7,6 +7,12 @@
         <div *ngIf="f.claimId.errors.required">ClaimId is required.</div>
         <div *ngIf="f.claimId.errors.minlength">ClaimId should be atleast 3 numbers.</div>
       </div>
+      <label #claimType for="claimType" class="col-sm-2 col-form-label col-form-label-lg">Claim Type</label>
+      <input formControlName="claimType" id="claimType" type="text" class="form-control">
+      <div *ngIf="f.claimType.touched && f.claimType.invalid" class="alert alert-danger">
+        <div *ngIf="f.claimType.errors.required">ClaimType is required.</div>
+        <div *ngIf="f.claimType.errors.minlength">claimType should be atleast 3 characters.</div>
+      </div>
       <button [ngClass]="{'btn': true, 'btn-primary': form.valid, 'btn-secondary': !form.valid}" type="submit" [disabled]="!form.valid"> Search</button>
     </div>
   </form>
