@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { IClaim } from '../Model/IClaim';
-//import { ClaimService } from 'src/app/services/claim.service';
 import { ClaimService } from 'src/app/services/claim.service';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
+import {MatTableDataSource} from '@angular/material/table';
+//import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatPaginator } from '@angular/material/paginator';
+
 
 @Component({
   selector: 'app-claim',
@@ -11,11 +13,17 @@ import { BrowserModule } from '@angular/platform-browser';
   styleUrls: ['./claim.component.css'],
 })
 export class ClaimComponent implements OnInit {
-  claims: Array<IClaim>;
+  claims;
   claim: IClaim;
   statusCode: number;
   message: string;
   displayedColumns: string[] = ['ClaimId', 'ClaimType', 'NetworkName', 'ProviderName'];
+  private paginator: MatPaginator;
+
+  @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
+    this.paginator = mp;
+    this.claims.paginator = this.paginator;
+  }
 
   form = new FormGroup({
     claimId: new FormControl(''),
@@ -23,31 +31,11 @@ export class ClaimComponent implements OnInit {
 
   });
 
-  constructor(private claimservice: ClaimService) {}
+  constructor(private claimservice: ClaimService) {
 
-  ngOnInit(): void {
-    /* this.claimservice.getClaims().subscribe(
-      (data) => {
-        this.claims = data;
-        console.log(data);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );*/
   }
 
-  /* getClaim(claimId: number) : void {
-    this.claimservice.getClaims().subscribe(
-      (data) => {
-        this.claims = data;
-        console.log(data);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );  }*/
-
+  ngOnInit(): void {}
 
   get f() {
     return this.form.controls;
@@ -59,7 +47,8 @@ export class ClaimComponent implements OnInit {
 
     this.claimservice.getClaimById(this.form.value.claimId,this.form.value.claimType).subscribe(
       (data) => {
-        this.claims = data;
+        this.claims = new MatTableDataSource(data);
+        this.claims.paginator = this.paginator;
         this.statusCode = 200;
         //console.log('Claim from backend.. ', this.claims);
       },
@@ -69,11 +58,19 @@ export class ClaimComponent implements OnInit {
           this.statusCode = 404;
           this.message = "The given claim id is not found.";
         }
-        if(error.status == 500) {
+        else {
           this.statusCode = 500;
           this.message = "Please try again sometime later. If the issue persists contact the application administrator.";
         }
       }
     );
+  }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.claims.filter = filterValue.trim().toLowerCase();
+
+    if (this.claims.paginator) {
+      this.claims.paginator.firstPage();
+    }
   }
 }

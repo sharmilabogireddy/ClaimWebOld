@@ -3,17 +3,28 @@
     <div class="form-group">
       <label #claimId for="claimId" class="col-sm-2 col-form-label col-form-label-lg">Claim Id</label>
       <input formControlName="claimId" id="claimId" type="text" class="form-control">
+      <!--<mat-form-field appearance="fill" [floatLabel]="floatLabelControl.value">
+        <mat-label>ClaimId</mat-label>
+        <input matInput placeholder="Enter ClaimId">
+      </mat-form-field>-->
       <div *ngIf="f.claimId.touched && f.claimId.invalid" class="alert alert-danger">
         <div *ngIf="f.claimId.errors.required">ClaimId is required.</div>
         <div *ngIf="f.claimId.errors.minlength">ClaimId should be atleast 3 numbers.</div>
       </div>
       <label #claimType for="claimType" class="col-sm-2 col-form-label col-form-label-lg">Claim Type</label>
       <input formControlName="claimType" id="claimType" type="text" class="form-control">
+      <!--<mat-form-field appearance="fill" [floatLabel]="floatLabelControl.value">
+        <mat-label>Claim Type</mat-label>
+        <input matInput placeholder="Enter ClaimType">
+      </mat-form-field>-->
       <div *ngIf="f.claimType.touched && f.claimType.invalid" class="alert alert-danger">
         <div *ngIf="f.claimType.errors.required">ClaimType is required.</div>
         <div *ngIf="f.claimType.errors.minlength">claimType should be atleast 3 characters.</div>
       </div>
-      <button [ngClass]="{'btn': true, 'btn-primary': form.valid, 'btn-secondary': !form.valid}" type="submit" [disabled]="!form.valid"> Search</button>
+      <!--<button mat-button color="primary" [ngClass]="{'btn': true, 'btn-primary': form.valid, 'btn-secondary': !form.valid}" type="submit" [disabled]="!form.valid"> Search</button>-->
+      <div>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid"> Search</button>
+      </div>
     </div>
   </form>
   <!--<div *ngIf="claim != null" class="col-sm-4">
@@ -26,9 +37,13 @@
   <div *ngIf="statusCode == 500" class="alert alert-danger">
     {{message}}
   </div>
-  <div *ngIf="statusCode == 200" style="margin: 70px;">
-     <div class="container">
-      <table mat-table [dataSource]="claims" class="mat-elevation-z8">
+  <div *ngIf="statusCode == 200" class="mat-elevation-z8">
+      <mat-form-field>
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+      </mat-form-field>
+
+      <table mat-table [dataSource]="claims" >
         <ng-container matColumnDef="ClaimId">
           <th mat-header-cell *matHeaderCellDef> ID </th>
           <td mat-cell *matCellDef="let element"> {{element.ClaimId}} </td>
@@ -47,32 +62,15 @@
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+        </tr>
+
       </table>
-       <!--
-       <table class="table">
-        <thead class="thead-light">
-          <tr>
-            <th scope="col">Claim Id</th>
-            <th scope="col">Claim Number</th>
-            <th scope="col">Network Name</th>
-            <th scope="col">Claim Type</th>
-            <th scope="col">MedicareId</th>
-            <th scope="col">Provider Name</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let claim of claims">
-            <td>{{claim.ClaimId}}</td>
-            <td>{{claim.ClaimNumber}}</td>
-            <td>{{claim.NetworkName}}</td>
-            <td>{{claim.ClaimType}}</td>
-            <td>{{claim.MedicareId}}</td>
-            <td>{{claim.ProviderName}}</td>
-          </tr>
-        </tbody>
-      </table>
-    -->
-    </div>
+      <mat-paginator #paginator [length]="claims?.length"  [pageSize]="5" [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons>
+      </mat-paginator>
+
   </div>
 
 </div>

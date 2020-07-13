@@ -10,7 +10,7 @@ import { Routes } from '@angular/router';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatTableModule} from '@angular/material/table';
+import { MaterialModule } from './shared/material.module';
 
 const appRoutes: Routes = [
   {path:'', component: ClaimComponent}
@@ -22,13 +22,13 @@ const appRoutes: Routes = [
       NavBarComponent
    ],
    imports: [
-      MatTableModule,
       BrowserModule,
       AppRoutingModule,
       HttpClientModule,
       FormsModule,
       ReactiveFormsModule,
-      BrowserAnimationsModule
+      BrowserAnimationsModule,
+      MaterialModule
    ],
    providers: [
      ClaimService
